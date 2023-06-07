@@ -186,29 +186,23 @@ class Room(ObjectParent, DefaultRoom):
         self.ndb.nearby_rooms = looker.ndb.nearby_rooms
         self.db.room_map = evform.EvForm("world/mapform.py")
         log_file(f"Empty Room Map: {self.db.room_map}", filename="map_debug.log")
-        mobs = "|cMobiles:|n "
-        items = "|cItems:|n "
+        in_area = "|cInside Area:|n "
         buildingsntowns = "|cEntrances:|n "
-        roads = "|cRoads:|n "
         for obj in self.contents:
-            if utils.inherits_from(obj, 'typeclasses.characters.Character'):
-                if obj != looker:
-                    mobs += obj.get_display_name(looker) + ","
-            elif utils.inherits_from(obj, 'typeclasses.items.Item') and \
-                not (utils.inherits_from(obj, 'typeclasses.items.Building') or \
-                utils.inherits_from(obj, 'typeclasses.items.Town') or \
-                utils.inherits_from(obj, 'typeclasses.items.RoadsAndTrail')):
-                items += obj.get_display_name(looker)  + ","
+            if not utils.inherits_from(obj, 'typeclasses.items.RoadsAndTrail') and \
+                not utils.inherits_from(obj, 'typeclasses.items.Building') and \
+                not utils.inherits_from(obj, 'typeclasses.items.Town') and \
+                not utils.inherits_from(obj, 'typeclasses.exits.Exit'):
+                    if obj != looker:
+                        in_area += obj.get_display_name(looker) + ", "
             elif utils.inherits_from(obj, 'typeclasses.items.Building') or \
                 utils.inherits_from(obj, 'typeclasses.items.Town'):
                 buildingsntowns += obj.get_display_name(looker) + ","
-            elif utils.inherits_from(obj, 'typeclasses.items.RoadsAndTrail'):
-                roads += obj.get_display_name(looker)  + ","
+        
         room_name = f"|c{self.get_display_name(looker)}|n"
         room_desc = str(self.db.desc)
-        room_roads = roads.strip(", ")
-        room_items = items.strip(", ") + "\n\n" + mobs.strip(", ")
-        all_room_contents = mobs + "\n\n" + items + " \n\n" + buildingsntowns.strip(", ") + "\n\n" + exits_descs 
+        room_items = in_area.strip(", ")
+        all_room_contents = room_items + "\n\n" + buildingsntowns.strip(", ") + "\n\n" + exits_descs 
         map += f"\n|cZone: |440{self.db.info['zone']}|n"
         
         self.db.room_map.map(cells={1: coord_string, \
