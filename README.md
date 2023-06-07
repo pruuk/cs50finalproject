@@ -6,7 +6,7 @@ Calabe will focus on the Python code that controls in game objects, scripts, act
 focusing on updating the web portal. Both Calabe and Malia will write the game story content.
 
 Homeworld Gaius will be a MUD based in a world that is slightly smaller than Earth with three moons that
-are roughly the same size. The technology level for this world will be roughly equivolent to Roman times.
+are roughly the same size. The technology level for this world will be roughly equivalent to Roman times.
 
 We will host the MUD so it can be logged into soon. URL TBD.
 
