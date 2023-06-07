@@ -1,3 +1,4 @@
+# coding=utf-8
 """
 Object
 
@@ -11,6 +12,8 @@ inheritance.
 
 """
 from evennia.objects.objects import DefaultObject
+from evennia.utils import lazy_property
+from world.traits import TraitHandler
 
 
 class ObjectParent:
@@ -171,4 +174,7 @@ class Object(ObjectParent, DefaultObject):
 
     """
 
-    pass
+    @lazy_property
+    def traits(self):
+        """TraitHandler that manages room traits."""
+        return TraitHandler(self)
